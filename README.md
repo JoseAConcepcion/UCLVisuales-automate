@@ -18,7 +18,7 @@ pip install tqdm
 
 1. Clona o descarga este repositorio en tu máquina local.
 
-2. Abre el archivo `visuale.py` en un editor de texto y edita las siguientes líneas:
+2. Abre el archivo `visuales.py` en un editor de texto y edita las siguientes líneas:
 
    - `url`: Reemplaza `'URL_DE_LA_PAGINA_WEB'` con la URL de la página web desde la cual deseas descargar los videos.
    - `carpeta_destino`: Reemplaza `'carpeta_destino'` con la ruta de la carpeta donde deseas guardar los archivos de video.
@@ -37,6 +37,6 @@ pip install tqdm
 
 - La carpeta de destino se creará en el directorio actual donde se encuentra el archivo `.py`.
 
-Disfruta :) 
+Disfruta 😃
 
 Si tienes alguna pregunta o problema, no dudes en abrir un problema en este repositorio. 🙋
