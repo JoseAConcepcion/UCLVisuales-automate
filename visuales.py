@@ -2,9 +2,18 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+import keyboard
 
 # URL de la página web modifique 👇
 url = 'URL_DE_LA_PAGINA_WEB'
+
+try:
+    response = requests.get(url)
+    response.raise_for_status()
+except requests.exceptions.RequestException as e:
+    print('La página web no es accesible, excepción: ')
+    print(f'{e}')
+    exit(1)
 
 carpeta_destino = os.path.join(os.getcwd(), 'carpeta_destino')
 
