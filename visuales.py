@@ -16,7 +16,7 @@ def banner():
 """
     return banner_ascii
 
-
+# Inicio
 print(banner())
 print("Presione CTRL + C para cancelar en cualquier momento")
 
@@ -68,6 +68,7 @@ carpeta_destino = os.path.join(os.getcwd(), 'carpeta_destino')
 if not os.path.exists(carpeta_destino):
     os.makedirs(carpeta_destino)
 
+# extensiones a descargar, modificar según necesidades
 extensiones_permitidas = ['.mp4', '.mkv', '.avi', '.srt', '.vtt']
 
 for url in urls:
