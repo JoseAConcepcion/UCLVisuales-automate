@@ -100,31 +100,3 @@ for url in urls:
 
 print('¡Terminado!')
 
-#todo Se debe dar una lista de todos los links encontrados numerados y se debe preguntar cuales descargar
-
-#todo La respuesta debe ser de por rangos 
-
-#todo Se debe poder dejar una lista con diferentes links para decargarlos todos
-
-#todo Se debe dejar un modo tipo descargar todo de una lista de links(videos, srt)
-
-#todo arreglar los nombres de los archivos
-
-
-#? Ver como implementar lo de abajo
-
-
-# carpeta_destino = os.path.join(os.getcwd(), 'carpeta_destino')
-
-# if not os.path.exists(carpeta_destino):
-#     os.makedirs(carpeta_destino)
-
-# # Verifica si la página web está accesible
-# try:
-#     response = requests.get(url)
-#     response.raise_for_status()  # Lanza una excepción si la solicitud no tiene éxito
-# except requests.exceptions.RequestException as e:
-#     print(f'La página web no está accesible: {e}')
-#     exit(1)  # Termina el script con un código de error
-
-# # Resto del script (descarga de archivos de video) sigue igual
