@@ -1,35 +1,34 @@
 # UCLVisuales-automate 💻
 
-## Descargador de Videos desde el repositorio de UCLV ⬇️
+## Descargador de Videos desde el repositorio de UCLV 🎥
 
-Este script de Python te permite descargar automáticamente todos los archivos de video con extensiones `.mp4` o `.mkv`, y guardarlos en una carpeta de destino local.
+Este script de Python te permite descargar automáticamente todos los archivos de video con subtitulos, y guardarlos en una carpeta de destino local.
 
 ## Requisitos 🛠️
 
-Antes de ejecutar el script, asegúrate de tener Python 3 instalado en tu sistema. También necesitarás instalar las siguientes bibliotecas de Python si aún no las tienes:
+Antes de ejecutar el script, asegúrate de tener Python 3 instalado en tu sistema. También necesitarás instalar los requerimientos. Bastará con ejecutar el siguiente comando:
 
 ```bash
-pip install requests
-pip install beautifulsoup4
-pip install tqdm
+pip install -r requirements.txt
 ```
 
 ## Uso 🚀
 
 1. Clona o descarga este repositorio en tu máquina local.
 
-2. Abre el archivo `visuales.py` en un editor de texto y edita las siguientes líneas:
-
-   - `url`: Reemplaza `'URL_DE_LA_PAGINA_WEB'` con la URL de la página web desde la cual deseas descargar los videos.
-   - `carpeta_destino`: Reemplaza `'carpeta_destino'` con la ruta de la carpeta donde deseas guardar los archivos de video.
-
-3. Ejecuta el script desde la línea de comandos:
+2. Ejecuta el script desde la línea de comandos:
 
    ```bash
    python visuales.py
    ```
 
-4. El script comenzará a buscar y descargar automáticamente los archivos de video con extensiones `.mp4` o `.mkv` desde la página web proporcionada.
+3. El script te preguntará si deseas ingresar las URLs manualmente (1) o desde un archivo (2).
+
+4. Si eliges ingresar las URLs manualmente, simplemente sigue las instrucciones y proporciona las URLs que desees descargar. Para finalizar la entrada, escribe 'fin'.
+
+5. Si eliges cargar las URLs desde un archivo llamado `links.txt` en la misma carpeta que el script, asegúrate de que el archivo exista y contenga las URLs una por línea.
+
+6. El script comenzará a buscar y descargar automáticamente los archivos multimedia desde las URLs proporcionadas.
 
 ## Notas 📝
 
