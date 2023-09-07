@@ -151,9 +151,3 @@ for url in urls:
         print(f'Archivo {nombre_archivo} descargado con éxito en {archivo_destino}')
 
 print('¡Terminado!')
-
-#todo arreglar los nombres de los archivos
-
-#todo Hacer un timer 
-
-
