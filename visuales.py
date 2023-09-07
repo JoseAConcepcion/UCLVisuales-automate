@@ -110,6 +110,8 @@ print('¡Terminado!')
 
 #todo arreglar los nombres de los archivos
 
+#todo Hacer un timer 
+
 
 #? Ver como implementar lo de abajo
 
