@@ -19,13 +19,17 @@ def banner():
 # Inicio
 print(banner())
 print("Presione CTRL + C para cancelar en cualquier momento")
+manual = False
+
 
 
 def obtener_urls():
+    global manual
     while True:
-        origen_url = input("¿Deseas ingresar la URL manualmente (1) o desde un archivo (2)? ")
+        origen_url = input("¿Deseas el modo manual (1) o automático desde un archivo (2)? ")
         if origen_url == '1':
             urls = []
+            manual = True
             while True:
                 url = input("Introduce la URL de la página web: ")
                 if url.lower() == 'fin':
@@ -63,13 +67,27 @@ def obtener_urls():
 
 urls = obtener_urls()
 
+
+# extensiones a descargar, modificar según necesidades
+extensiones_permitidas = ['.mp4', '.mkv', '.avi', '.srt', '.vtt']
+
+if(manual):
+    modificar = input('¿Deseas modificar las extenciones (S/N)? ')
+    if modificar.lower() == 's':
+        print('Recuerde poner el . antes del formato y teclee fin para terminar')
+        extensiones = []
+        while True:
+            text = input('Extensión que desea: ')
+            if text.lower() == 'fin': break
+            extensiones.append(text)
+        extensiones_permitidas = extensiones
+
+
 carpeta_destino = os.path.join(os.getcwd(), 'carpeta_destino')
 
 if not os.path.exists(carpeta_destino):
     os.makedirs(carpeta_destino)
 
-# extensiones a descargar, modificar según necesidades
-extensiones_permitidas = ['.mp4', '.mkv', '.avi', '.srt', '.vtt']
 
 for url in urls:
     response = requests.get(url)
