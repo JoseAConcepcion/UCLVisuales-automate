@@ -16,16 +16,20 @@ def banner():
 """
     return banner_ascii
 
-
+# Inicio
 print(banner())
 print("Presione CTRL + C para cancelar en cualquier momento")
+manual = False
+
 
 
 def obtener_urls():
+    global manual
     while True:
-        origen_url = input("¿Deseas ingresar la URL manualmente (1) o desde un archivo (2)? ")
+        origen_url = input("¿Deseas el modo manual (1) o automático desde un archivo (2)? ")
         if origen_url == '1':
             urls = []
+            manual = True
             while True:
                 url = input("Introduce la URL de la página web: ")
                 if url.lower() == 'fin':
@@ -63,12 +67,26 @@ def obtener_urls():
 
 urls = obtener_urls()
 
+
+# extensiones a descargar, modificar según necesidades
+extensiones_permitidas = ['.mp4', '.mkv', '.avi', '.srt', '.vtt']
+
+if(manual):
+    modificar = input('¿Deseas modificar las extenciones (S/N)? ')
+    if modificar.lower() == 's':
+        print('Recuerde poner el . antes del formato y teclee fin para terminar')
+        extensiones = []
+        while True:
+            text = input('Extensión que desea: ')
+            if text.lower() == 'fin': break
+            extensiones.append(text)
+        extensiones_permitidas = extensiones
+
+
 carpeta_destino = os.path.join(os.getcwd(), 'carpeta_destino')
 
 if not os.path.exists(carpeta_destino):
     os.makedirs(carpeta_destino)
-
-extensiones_permitidas = ['.mp4', '.mkv', '.avi', '.srt', '.vtt']
 
 for url in urls:
     response = requests.get(url)
@@ -76,27 +94,61 @@ for url in urls:
 
     enlaces_video = soup.find_all('a', href=True)
 
+    video_list = []  # Crear una lista para almacenar los enlaces de video
+
     for enlace in enlaces_video:
         nombre_archivo = enlace['href']
         if any(nombre_archivo.endswith(ext) for ext in extensiones_permitidas):
-            url_archivo = url + nombre_archivo
-            archivo_destino = os.path.join(carpeta_destino, nombre_archivo)
+            video_list.append((nombre_archivo, url + nombre_archivo))  # Agregar el enlace a la lista de videos
 
-            print(f'Descargando: {nombre_archivo}')
+    videos_a_descargar = video_list
 
-            with requests.get(url_archivo, stream=True) as response:
-                total_size = int(response.headers.get('content-length', 0))
-                block_size = 1024
-                t = tqdm(total=total_size, unit='B', unit_scale=True, unit_divisor=1024)
+    if manual:
+        # Enumerar y mostrar los videos disponibles
+        for i, (nombre_archivo, url_archivo) in enumerate(video_list, start=1):
+            print(f'{i}. {nombre_archivo}')
 
-                with open(archivo_destino, 'wb') as archivo_local:
-                    for data in response.iter_content(block_size):
-                        t.update(len(data))
-                        archivo_local.write(data)
+        # Solicitar la opción al usuario
+        while True:
+            opcion = input("¿Qué videos descargar? (Especifica el rango como 'inicio-fin' o 'all' para todos): ")
+            
+            if opcion.lower() == 'all':
+                # Descargar todos los videos
+                videos_a_descargar = video_list
+                break
+            elif '-' in opcion:
+                try:
+                    inicio, fin = map(int, opcion.split('-'))
+                    if 1 <= inicio <= fin <= len(video_list):
+                        # Descargar el rango de videos especificado por el usuario
+                        videos_a_descargar = video_list[inicio - 1:fin]
+                        break
+                    else:
+                        print('Rango no válido. Intente de nuevo.')
+                except ValueError:
+                    print('Entrada no válida. Intente de nuevo.')
+            else:
+                print('Entrada no válida. Intente de nuevo.')
 
-                t.close()
+    # Descargar los videos seleccionados
+    for nombre_archivo, url_archivo in videos_a_descargar:
+        archivo_destino = os.path.join(carpeta_destino, nombre_archivo)
 
-            print(f'Archivo {nombre_archivo} descargado con éxito en {archivo_destino}')
+        print(f'Descargando: {nombre_archivo}')
+
+        with requests.get(url_archivo, stream=True) as response:
+            total_size = int(response.headers.get('content-length', 0))
+            block_size = 1024
+            t = tqdm(total=total_size, unit='B', unit_scale=True, unit_divisor=1024)
+
+            with open(archivo_destino, 'wb') as archivo_local:
+                for data in response.iter_content(block_size):
+                    t.update(len(data))
+                    archivo_local.write(data)
+
+            t.close()
+
+        print(f'Archivo {nombre_archivo} descargado con éxito en {archivo_destino}')
 
 print('¡Terminado!')
 
@@ -113,20 +165,3 @@ print('¡Terminado!')
 #todo Hacer un timer 
 
 
-#? Ver como implementar lo de abajo
-
-
-# carpeta_destino = os.path.join(os.getcwd(), 'carpeta_destino')
-
-# if not os.path.exists(carpeta_destino):
-#     os.makedirs(carpeta_destino)
-
-# # Verifica si la página web está accesible
-# try:
-#     response = requests.get(url)
-#     response.raise_for_status()  # Lanza una excepción si la solicitud no tiene éxito
-# except requests.exceptions.RequestException as e:
-#     print(f'La página web no está accesible: {e}')
-#     exit(1)  # Termina el script con un código de error
-
-# # Resto del script (descarga de archivos de video) sigue igual
