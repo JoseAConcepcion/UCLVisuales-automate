@@ -1,10 +1,9 @@
-import os
 import requests
 import keyboard
 import urllib.parse
 from bs4 import BeautifulSoup
 from tqdm import tqdm
-
+from enlaces import *
 
 def banner():
     # App banner
@@ -59,7 +58,9 @@ def obtener_urls():
                     try:
                         response = requests.get(url)
                         response.raise_for_status()
-                        urls.append(url)
+                        hijos = encontrar_directorios(url)
+                        for hijo in hijos:
+                            urls.append(hijo)
                     except requests.exceptions.RequestException as e:
                         print(
                             f'La página web \n\n {url} \n\nno es accesible, excepción:\n {e} \n')
