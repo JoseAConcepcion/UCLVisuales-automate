@@ -1,6 +1,7 @@
 import os
 import requests
 import keyboard
+import urllib.parse
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
@@ -106,6 +107,7 @@ for url in urls:
 
     for enlace in enlaces_video:
         nombre_archivo = enlace['href']
+        nombre_archivo = urllib.parse.unquote(nombre_archivo)
         if any(nombre_archivo.endswith(ext) for ext in extensiones_permitidas):
             # Agregar el enlace a la lista de videos
             video_list.append((nombre_archivo, url + nombre_archivo))
