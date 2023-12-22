@@ -1,6 +1,7 @@
 import requests
 import keyboard
 import urllib.parse
+import os
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 from enlaces import *
