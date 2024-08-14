@@ -145,24 +145,52 @@ for url in urls:
                 print('Entrada no válida. Intente de nuevo.')
 
     # Descargar los videos seleccionados
+    # for nombre_archivo, url_archivo in videos_a_descargar:
+    #     archivo_destino = os.path.join(carpeta_destino, nombre_archivo)
+    #
+    #     print(f'Descargando: {nombre_archivo}')
+    #
+    #     with requests.get(url_archivo, stream=True) as response:
+    #         total_size = int(response.headers.get('content-length', 0))
+    #         block_size = 1024
+    #         t = tqdm(total=total_size, unit='B',
+    #                  unit_scale=True, unit_divisor=1024)
+    #
+    #         with open(archivo_destino, 'wb') as archivo_local:
+    #             for data in response.iter_content(block_size):
+    #                 t.update(len(data))
+    #                 archivo_local.write(data)
+    #
+    #         t.close()
     for nombre_archivo, url_archivo in videos_a_descargar:
         archivo_destino = os.path.join(carpeta_destino, nombre_archivo)
 
         print(f'Descargando: {nombre_archivo}')
 
-        with requests.get(url_archivo, stream=True) as response:
-            total_size = int(response.headers.get('content-length', 0))
+        # Verificar si el archivo ya existe y obtener su tamaño
+        if os.path.exists(archivo_destino):
+            tamaño_actual = os.path.getsize(archivo_destino)
+        else:
+            tamaño_actual = 0
+
+        # Realizar la solicitud de descarga con el encabezado Range
+        headers = {'Range': f'bytes={tamaño_actual}-'}
+        with requests.get(url_archivo, headers=headers, stream=True) as response:
+            if response.status_code == 416:
+                print(f'El archivo {nombre_archivo} ya está completamente descargado.')
+                continue  # Si el archivo ya está completo, continuar con el siguiente
+
+            total_size = int(response.headers.get('content-length', 0)) + tamaño_actual
             block_size = 1024
-            t = tqdm(total=total_size, unit='B',
+            t = tqdm(total=total_size, initial=tamaño_actual, unit='B',
                      unit_scale=True, unit_divisor=1024)
 
-            with open(archivo_destino, 'wb') as archivo_local:
+            with open(archivo_destino, 'ab') as archivo_local:  # Abrir en modo append
                 for data in response.iter_content(block_size):
                     t.update(len(data))
                     archivo_local.write(data)
 
             t.close()
-
         print(
             f'Archivo {nombre_archivo} descargado con éxito en {archivo_destino}')
 
