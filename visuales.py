@@ -144,24 +144,6 @@ for url in urls:
             else:
                 print('Entrada no válida. Intente de nuevo.')
 
-    # Descargar los videos seleccionados
-    # for nombre_archivo, url_archivo in videos_a_descargar:
-    #     archivo_destino = os.path.join(carpeta_destino, nombre_archivo)
-    #
-    #     print(f'Descargando: {nombre_archivo}')
-    #
-    #     with requests.get(url_archivo, stream=True) as response:
-    #         total_size = int(response.headers.get('content-length', 0))
-    #         block_size = 1024
-    #         t = tqdm(total=total_size, unit='B',
-    #                  unit_scale=True, unit_divisor=1024)
-    #
-    #         with open(archivo_destino, 'wb') as archivo_local:
-    #             for data in response.iter_content(block_size):
-    #                 t.update(len(data))
-    #                 archivo_local.write(data)
-    #
-    #         t.close()
     for nombre_archivo, url_archivo in videos_a_descargar:
         archivo_destino = os.path.join(carpeta_destino, nombre_archivo)
 
